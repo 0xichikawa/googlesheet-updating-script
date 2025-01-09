@@ -1,0 +1,32 @@
+{
+  "name": "googlesheet-updating-script",
+  "version": "1.0.0",
+  "description": "GoogleSheet modifying script",
+  "homepage": "https://github.com/0xichikawa/googlesheet-updating-script#readme",
+  "bugs": {
+    "url": "https://github.com/0xichikawa/googlesheet-updating-script/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0xichikawa/googlesheet-updating-script.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "ts-node index.ts"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "google-auth-library": "^9.15.0",
+    "google-spreadsheet": "^4.1.4",
+    "googleapis": "^120.0.0",
+    "typescript": "^5.7.3"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "ts-node": "^10.9.0"
+  }
+}
