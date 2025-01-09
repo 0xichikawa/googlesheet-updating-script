@@ -55,7 +55,7 @@ export async function updateGoogleSheet(): Promise<void> {
         timestamp_link: row.get('timestamp_link')
     }));
 
-    // await sheet.clearRows();
+    await sheet.clearRows();
 
     // Add updated rows
     const updatedRows = data.map(item => ({
@@ -64,12 +64,11 @@ export async function updateGoogleSheet(): Promise<void> {
         violated_reason: item.violated_reason,
         start: formatTime(item.start),
         end: formatTime(item.end),
-        video_link: item.video_link,
-        timestamp_link: createTimestampLink(item.video_link, item.start)
+        video_link: item.video_link.split('&feature=')[0],
+        timestamp_link: createTimestampLink(item.video_link.split('&feature=')[0], item.start)
     }));
 
-    // await sheet.addRows(updatedRows);
-    console.log("Updated rows:", updatedRows);
+    await sheet.addRows(updatedRows);
     console.log("Google Sheets updated successfully.");
 }
 
