@@ -20,7 +20,11 @@ function formatTime(seconds: number): string {
 }
 
 function createTimestampLink(videoLink: string, startTime: number): string {
-    return `${videoLink}?t=${Math.floor(startTime)}`;
+    if (videoLink.includes("youtube.com")) {
+        return `${videoLink}?t=${Math.floor(startTime)}`;
+    }
+
+    return videoLink;
 }
 
 export async function updateGoogleSheet(): Promise<void> {
@@ -33,7 +37,7 @@ export async function updateGoogleSheet(): Promise<void> {
     const doc = new GoogleSpreadsheet(process.env.GOOGLE_SHEET_ID as string, serviceAccountAuth);
     await doc.loadInfo();
 
-    let sheet = doc.sheetsByTitle[process.env.SHEET_NAME_YOUTUBE as string];
+    let sheet = doc.sheetsByTitle[process.env.SHEET_NAME_PATREON as string];
     if (!sheet) {
         throw new Error('Sheet not found');
     }
@@ -51,7 +55,7 @@ export async function updateGoogleSheet(): Promise<void> {
         timestamp_link: row.get('timestamp_link')
     }));
 
-    await sheet.clearRows();
+    // await sheet.clearRows();
 
     // Add updated rows
     const updatedRows = data.map(item => ({
@@ -64,7 +68,8 @@ export async function updateGoogleSheet(): Promise<void> {
         timestamp_link: createTimestampLink(item.video_link, item.start)
     }));
 
-    await sheet.addRows(updatedRows);
+    // await sheet.addRows(updatedRows);
+    console.log("Updated rows:", updatedRows);
     console.log("Google Sheets updated successfully.");
 }
 
