@@ -23,6 +23,7 @@
     "google-auth-library": "^9.15.0",
     "google-spreadsheet": "^4.1.4",
     "googleapis": "^120.0.0",
+    "openai": "^4.78.0",
     "typescript": "^5.7.3"
   },
   "devDependencies": {
