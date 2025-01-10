@@ -144,14 +144,14 @@ export async function updateGoogleSheet(): Promise<void> {
     const doc = new GoogleSpreadsheet(process.env.GOOGLE_SHEET_ID as string, serviceAccountAuth);
     await doc.loadInfo();
 
-    let sheet = doc.sheetsByTitle[process.env.SHEET_NAME_PATREON as string];
-    let updatedSheet = doc.sheetsByTitle[process.env.SHEET_NAME_PATREON_UPDATED as string];
-    if (!sheet && !updatedSheet) {
+    let sheet = doc.sheetsByTitle[process.env.SHEET_NAME_PATREON_UPDATED as string];
+    // let updatedSheet = doc.sheetsByTitle[process.env.SHEET_NAME_PATREON_UPDATED as string];
+    if (!sheet ) {
         throw new Error('Sheets not found');
     }
 
     await sheet.loadHeaderRow();
-    await updatedSheet.loadHeaderRow();
+    // await updatedSheet.loadHeaderRow();
     const rows = await sheet.getRows();
 
     const data: VideoData[] = rows.map(row => ({
@@ -164,9 +164,7 @@ export async function updateGoogleSheet(): Promise<void> {
         timestamp_link: row.get('timestamp_link')
     }));
 
-    console.log("rows length------>", data.length);
-
-    // await sheet.clearRows();
+    await sheet.clearRows();
 
     for (const row of data) {
         try {
@@ -190,7 +188,7 @@ export async function updateGoogleSheet(): Promise<void> {
                 console.log("Analysis for ID:", row.id, ":", analysis);
 
                 if (analysis.startsWith("CORRECT")) {
-                    await updatedSheet.addRow({
+                    await sheet.addRow({
                         id: row.id,
                         transcript: row.transcript,
                         violated_reason: row.violated_reason,
